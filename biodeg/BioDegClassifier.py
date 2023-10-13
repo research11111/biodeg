@@ -16,7 +16,7 @@ import copy
 import time
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, balanced_accuracy_score
-from BioDegClassifierModel import *
+from .BioDegClassifierModel import *
 import csv
 
 def one_of_k_encoding(x, allowable_set):

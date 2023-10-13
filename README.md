@@ -16,6 +16,10 @@ conda create -n biodeg python=3.11 && \
     pip install -e . && \
     pip install poetry
 ```
+#### Run
+```bash
+biodeg train -e 10 -i data/data/All-Public_dataset_Mordred_tail_10.csv -o /tmp/e.pt
+```
 #### Build
 ```bash
 poetry build

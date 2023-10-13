@@ -44,7 +44,7 @@ def main():
 
     args = parser.parse_args()
 
-    import BioDegClassifier
+    from . import BioDegClassifier
     
     if args.command == "train":
         d = BioDegClassifier.Dev()
@@ -69,5 +69,5 @@ def main():
 if __name__ == "__main__":
     main()
 else:
-    import BioDegClassifier
-    from BioDegClassifierModel import *
+    from . import BioDegClassifier
+    from .BioDegClassifierModel import *
