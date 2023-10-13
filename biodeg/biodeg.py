@@ -21,6 +21,9 @@ def main():
             print(f"The file {param} does not exist.")
             sys.exit(1)
         return param
+        
+    def model_path(file):
+        return os.path.join(os.path.dirname(__file__), "data", "models", file)
 
     parser = argparse.ArgumentParser(description="Evaluate biodegradability of chemical compounds",
         epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
@@ -35,12 +38,12 @@ def main():
 
     parser_predict = subparsers.add_parser("predict", help="Predict biodegradability")
     parser_predict.add_argument("-i", "--input", default="data/data/All-Public_dataset_Mordred_10.csv", type=valid_file, help="Input file to evaluate")
-    parser_predict.add_argument("-m", "--model", default="data/models/model.pt", type=valid_file, help="Model to use to make the prediction")
+    parser_predict.add_argument("-m", "--model", default=model_path("model.pt"), type=valid_file, help="Model to use to make the prediction")
     parser_predict.add_argument("-o", "--output", default="guessed.csv", type=str, help="Where to put the results")
 
     parser_predict = subparsers.add_parser("test", help="Test a model on some data")
     parser_predict.add_argument("-i", "--input", default="data/data/All-Public_dataset_Mordred_10.csv", type=valid_file, help="Input file to evaluate")
-    parser_predict.add_argument("-m", "--model", default="data/models/model.pt", type=valid_file, help="Model to use to make the prediction")
+    parser_predict.add_argument("-m", "--model", default=model_path("model.pt"), type=valid_file, help="Model to use to make the prediction")
 
     args = parser.parse_args()
 
