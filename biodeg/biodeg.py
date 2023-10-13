@@ -1,4 +1,4 @@
-if __name__ == "__main__":
+def main():
     import argparse, sys, os
 
     if len(sys.argv) == 1:
@@ -66,6 +66,8 @@ if __name__ == "__main__":
         d.load(args.model)
         print('Total accuracy on this data %.4f' % d.test())
 
+if __name__ == "__main__":
+    main()
 else:
     import BioDegClassifier
     from BioDegClassifierModel import *
