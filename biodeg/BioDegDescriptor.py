@@ -17,3 +17,6 @@ class BioDegDescriptor(Descriptor):
         
     def parameters(self):
         return ()
+        
+    def description(self):
+        return "Classify the molecule as being Ready Biodegradable (1) or Non Ready Biodegradable (0)"
