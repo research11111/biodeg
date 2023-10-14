@@ -17,7 +17,7 @@ import time
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, balanced_accuracy_score
 from .BioDegClassifierModel import *
-import csv
+import csv, os
 
 def one_of_k_encoding(x, allowable_set):
     if x not in allowable_set:
@@ -99,6 +99,10 @@ def SMILES_to_InChIKey(df, col, i):
     except:
         key = np.nan
     return key
+
+def get_model_path(file):
+    return os.path.join(os.path.dirname(__file__), "data", "models", file)
+
 class BioDegClassifier:
 
     def __init__(self):
@@ -129,7 +133,7 @@ class BioDegClassifier:
     def loadData(self,file):
         pass
     
-    def load(self,file="data/models/model.pt"):
+    def load(self,file=get_model_path("model.pt")):
         model_state_dict = torch.load(file)
         self.model.load_state_dict(model_state_dict)
             
@@ -213,7 +217,7 @@ class Dev(BioDegClassifier):
         self.train_data = DataLoader(train_X, batch_size=len(train_X), shuffle=True, drop_last=True)
         self.test_data = DataLoader(test_X, batch_size=len(test_X), shuffle=False, drop_last=True)
     
-    def save(self, file="data/models/model.pt"):
+    def save(self, file=get_model_path("model.pt")):
         torch.save(self.model.state_dict(), file)
 
 class Prod(BioDegClassifier):
