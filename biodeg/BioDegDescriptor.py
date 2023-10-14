@@ -11,7 +11,9 @@ class BioDegDescriptor(Descriptor):
     def calculate(self):
         self.classifier.loadMols([self.mol]) 
         result = self.classifier.guess()
-        return self.classifier.biodeg_string_from_state(result[0])
+            
+        return next(iter(result.values()))
+
         
     def parameters(self):
         return ()
