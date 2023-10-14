@@ -82,7 +82,7 @@ def df_check(df):
 def make_mol(df):
     mols = {}
     for i in range(df.shape[0]):
-        mols[Chem.MolFromSmiles(df['SMILES'].iloc[i])] = df['Class'].iloc[i]
+        mols[Chem.RemoveHs(Chem.MolFromSmiles(df['SMILES'].iloc[i]))] = df['Class'].iloc[i]
     return mols
 def make_vec(mols):
     X = [mol2vec(m) for m in mols.keys()]
@@ -231,13 +231,13 @@ class Prod(BioDegClassifier):
     def loadData(self,file):
         df = pd.read_csv(file, low_memory=False)
         self.loadDataFrame(pd.concat([df['SMILES'], df['Class']], axis=1))
-                
+    
     def loadMols(self,mols):
-        df = pd.DataFrame({'SMILES': [Chem.MolToSmiles(mol) for mol in mols], 'Class': [0]})
+        df = pd.DataFrame({'SMILES': [Chem.MolToSmiles(mol,allHsExplicit=False) for mol in mols], 'Class': [0]})
         self.loadDataFrame(df)
         
     def loadDataFrame(self,df):
-        mols = make_mol(df)
+        mols = make_mol(df)            
         vectors = make_vec(mols)
         self.loadedMols = list(mols.keys())
         self.loadedData = DataLoader(vectors, batch_size=len(vectors), shuffle=False, drop_last=False)
@@ -272,11 +272,11 @@ class Prod(BioDegClassifier):
     def guess_pretty_print(self,result):
         for key in result.keys():
             biodeg = self.biodeg_string_from_state(result[key])
-            print('%s : %s' % (Chem.MolToSmiles(key), biodeg))
+            print('%s : %s' % (Chem.MolToSmiles(key,allHsExplicit=False), biodeg))
     
     def guess_result_to_csv(self,file,result):
         with open(file, 'w') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow(["SMILES", "BioDegradability"])
             for key, value in result.items():
-                writer.writerow([Chem.MolToSmiles(key), value])
+                writer.writerow([Chem.MolToSmiles(key,allHsExplicit=False), value])
