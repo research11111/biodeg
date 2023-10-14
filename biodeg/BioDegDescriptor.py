@@ -1,5 +1,6 @@
 from . import BioDegClassifier
 from mordred import Descriptor
+from rdkit import Chem
 
 class BioDegDescriptor(Descriptor):
 
@@ -9,7 +10,7 @@ class BioDegDescriptor(Descriptor):
         self.classifier = c
         
     def calculate(self):
-        self.classifier.loadMols([self.mol]) 
+        self.classifier.loadMols([Chem.RemoveHs(self.mol)]) 
         result = self.classifier.guess()
             
         return next(iter(result.values()))
