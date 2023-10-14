@@ -63,22 +63,7 @@ def mol2vec(mol):
     data = Data(x=torch.tensor(node_f, dtype=torch.float),
                 edge_index=torch.tensor(edge_index, dtype=torch.long))
     return data
-    
-def df_check(df):
-    df['mol2vec'] = 'Yes'
-    for i in range(df.shape[0]):
-        try:
-            m = Chem.MolFromSmiles(df['SMILES'].iloc[i])
-            vec = mol2vec(m)
-    #         print(i, m, vec)
-        except:
-            df['mol2vec'].iloc[i] = 'No'
-    #         print('No')
-            continue
 
-    df = df[df['mol2vec'] != 'No'].sample(frac=1).reset_index(drop=True)
-    del df['mol2vec']
-    return df
 def make_mol(df):
     mols = {}
     for i in range(df.shape[0]):
@@ -90,15 +75,6 @@ def make_vec(mols):
         y = list(mols.values())[i]
         data.y = torch.tensor([y], dtype=torch.long)
     return X
-def SMILES_to_InChIKey(df, col, i):
-    try:
-        s = df[col].iloc[i]
-        m = Chem.MolFromSmiles(s)
-        inc = Chem.inchi.MolToInchi(m)
-        key = Chem.inchi.InchiToInchiKey(inc)
-    except:
-        key = np.nan
-    return key
 
 def get_model_path(file):
     return os.path.join(os.path.dirname(__file__), "data", "models", file)
