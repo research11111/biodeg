@@ -38,6 +38,7 @@ def main():
 
     parser_predict = subparsers.add_parser("predict", help="Predict biodegradability")
     parser_predict.add_argument("-i", "--input", type=valid_file, help="Input file to evaluate")
+    parser_predict.add_argument("-s","--smiles", type=str,help="Make prediction on given SMILES")
     parser_predict.add_argument("-m", "--model", default=model_path("model.pt"), type=valid_file, help="Model to use to make the prediction")
     parser_predict.add_argument("-o", "--output", default="guessed.csv", type=str, help="Where to put the results")
 
@@ -58,7 +59,11 @@ def main():
             print('Total accuracy on this data %.4f' % d.test())
     elif args.command == "predict":
         c = BioDegClassifier.Prod()
-        c.loadData(args.input)
+        if args.input:
+            c.loadData(args.input)
+        else:
+            c.loadMols([Chem.MolFromSmiles(args.smiles)]) 
+    
         c.load(args.model)
         result = c.guess()
         c.guess_result_to_csv(args.output,result)
