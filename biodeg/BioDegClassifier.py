@@ -275,4 +275,4 @@ class Prod(BioDegClassifier):
             writer = csv.writer(csv_file)
             writer.writerow(["SMILES", "BioDegradability"])
             for key, value in result.items():
-                writer.writerow([Chem.MolToSmiles(key), value])(biodeg)
+                writer.writerow([Chem.MolToSmiles(key), value])
