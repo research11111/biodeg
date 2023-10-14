@@ -24,3 +24,7 @@ biodeg train -e 10 -i data/data/All-Public_dataset_Mordred_tail_10.csv -o /tmp/e
 ```bash
 poetry build
 ```
+#### Test
+```bash
+pytest
+```
