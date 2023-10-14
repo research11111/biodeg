@@ -9,8 +9,6 @@ class BioDegDescriptor(Descriptor):
         self.classifier = c
         
     def calculate(self):
-        for k in dir(self.classifier):
-            print(k)
         self.classifier.loadMols([self.mol]) 
         result = self.classifier.guess()
         return self.classifier.biodeg_string_from_state(result[0])

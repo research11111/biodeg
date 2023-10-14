@@ -226,7 +226,13 @@ class Prod(BioDegClassifier):
     # molecule to graph conversion is performed
     def loadData(self,file):
         df = pd.read_csv(file, low_memory=False)
-        df = pd.concat([df['SMILES'], df['Class']], axis=1)
+        self.loadDataFrame(pd.concat([df['SMILES'], df['Class']], axis=1))
+                
+    def loadMols(self,mols):
+        df = pd.DataFrame({'SMILES': [Chem.MolToSmiles(mol) for mol in mols], 'Class': [0]})
+        self.loadDataFrame(df)
+        
+    def loadDataFrame(self,df):
         mols = make_mol(df)
         vectors = make_vec(mols)
         self.loadedMols = list(mols.keys())
@@ -255,10 +261,13 @@ class Prod(BioDegClassifier):
             result[associatedMol] = pred_data_total[idx]
     
         return result
+    
+    def biodeg_string_from_state(self,state):
+        return 'RB' if state == 1 else 'NRB'
         
     def guess_pretty_print(self,result):
         for key in result.keys():
-            biodeg = 'RB' if result[key] else 'NRB'
+            biodeg = self.biodeg_string_from_state(result[key])
             print('%s : %s' % (Chem.MolToSmiles(key), biodeg))
     
     def guess_result_to_csv(self,file,result):
@@ -266,4 +275,4 @@ class Prod(BioDegClassifier):
             writer = csv.writer(csv_file)
             writer.writerow(["SMILES", "BioDegradability"])
             for key, value in result.items():
-                writer.writerow([Chem.MolToSmiles(key), value])
+                writer.writerow([Chem.MolToSmiles(key), value])(biodeg)

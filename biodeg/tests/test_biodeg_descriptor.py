@@ -13,7 +13,7 @@ def test_calculate_biodeg_descriptor():
     calc = Calculator(descs=[d])
     
     result = calc(mol)
-    print(result)
     
+    print(result)
     expected_result = 'EXPECTED_RESULT'
     assert result[BioDegDescriptor] == expected_result
