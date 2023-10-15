@@ -6,7 +6,7 @@ Predict if a molecule is generally degraded when in the wild.
 ```bash
 conda create -n biodeg python=3.11 && \
     conda activate biodeg && \
-    pip install .
+    pip install git+https://github.com/research11111/biodeg.git#egg=biodeg
 ```
 #### From github
 Download a release from [releases](https://github.com/research11111/biodeg/releases), then
