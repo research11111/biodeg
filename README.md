@@ -8,6 +8,13 @@ conda create -n biodeg python=3.11 && \
     conda activate biodeg && \
     pip install .
 ```
+#### From github
+Download a release from [releases](https://github.com/research11111/biodeg/releases), then
+```bash
+conda create -n biodeg python=3.11 && \
+    conda activate biodeg && \
+    pip install biodeg-*.whl
+```
 ### Developp
 #### Install
 ```bash
@@ -26,5 +33,5 @@ poetry build
 ```
 #### Test
 ```bash
-pytest
+poetry run pytest
 ```
