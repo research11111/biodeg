@@ -15,6 +15,23 @@ conda create -n biodeg python=3.11 && \
     conda activate biodeg && \
     pip install biodeg-*.whl
 ```
+### Run
+Make some real time prediction with the default installed prediction model
+```bash
+biodeg predict -s 'O=C1CCCCCO1' -o '/dev/stdout'
+```
+```
+SMILES,BioDegradability
+O=C1CCCCCO1,1
+```
+Train a new prediction model with 10 epoch on a small dataset
+```bash
+biodeg train -e 10 -i data/data/All-Public_dataset_Mordred_tail_10.csv -o /tmp/e.pt
+```
+Test accuracy of this new model
+```bash
+biodeg test -m /tmp/e.pt -i data/data/All-Public_dataset_Mordred_tail_10.csv
+```
 ### Developp
 #### Install
 ```bash
@@ -22,10 +39,6 @@ conda create -n biodeg python=3.11 && \
     conda activate biodeg && \
     pip install -e . && \
     pip install poetry
-```
-#### Run
-```bash
-biodeg train -e 10 -i data/data/All-Public_dataset_Mordred_tail_10.csv -o /tmp/e.pt
 ```
 #### Build
 ```bash
