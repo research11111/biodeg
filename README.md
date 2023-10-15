@@ -35,3 +35,7 @@ poetry build
 ```bash
 poetry run pytest
 ```
+
+### Credits
+All the initial work credits go to Myeonghun Lee and Kyoungmin Min (https://pubs.acs.org/doi/10.1021/acsomega.1c06274).  
+biodeg is just a refactoring of this work with some small improvments
