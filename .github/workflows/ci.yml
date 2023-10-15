@@ -7,15 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      LD_LIBRARY_PATH: /usr/local/cuda/lib64:$LD_LIBRARY_PATH  # Set library path for CUDA
-
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Install CUDA Toolkit
-      run: sudo apt-get update && sudo apt-get install -y nvidia-cuda-toolkit
 
     - name: Set up Conda
       uses: conda-incubator/setup-miniconda@v2
@@ -24,8 +19,10 @@ jobs:
         activate-environment: biodeg
         python-version: 3.11
 
-    - name: Install Conda dependencies
-      run: conda install cudatoolkit=10.2
+    - name: Install CUDA via Conda
+      run: |
+        conda install -c nvidia cuda
+        echo "LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH" >> $GITHUB_ENV
 
     - name: Install Poetry
       run: pip install poetry
