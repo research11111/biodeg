@@ -67,7 +67,11 @@ def mol2vec(mol):
 def make_mol(df):
     mols = {}
     for i in range(df.shape[0]):
-        mols[Chem.RemoveHs(Chem.MolFromSmiles(df['SMILES'].iloc[i]))] = df['Class'].iloc[i]
+        mol = Chem.MolFromSmiles(df['SMILES'].iloc[i])
+        if mol is None:
+            sys.stderr.write(f"Warning: Invalid SMILES {smiles}\n")
+            continue
+        mols[Chem.RemoveHs(mol)] = df['Class'].iloc[i]
     return mols
 def make_vec(mols):
     X = [mol2vec(m) for m in mols.keys()]
