@@ -17,7 +17,7 @@ import time
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, balanced_accuracy_score
 from .BioDegClassifierModel import *
-import csv, os
+import csv, os, sys
 
 def one_of_k_encoding(x, allowable_set):
     if x not in allowable_set:
@@ -67,7 +67,8 @@ def mol2vec(mol):
 def make_mol(df):
     mols = {}
     for i in range(df.shape[0]):
-        mol = Chem.MolFromSmiles(df['SMILES'].iloc[i])
+        smiles = df['SMILES'].iloc[i]
+        mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             sys.stderr.write(f"Warning: Invalid SMILES {smiles}\n")
             continue
@@ -213,7 +214,11 @@ class Prod(BioDegClassifier):
         self.loadDataFrame(pd.concat([df['SMILES'], df['Class']], axis=1))
     
     def loadMols(self,mols):
-        df = pd.DataFrame({'SMILES': [Chem.MolToSmiles(mol,allHsExplicit=False) for mol in mols], 'Class': [0]})
+        df = None
+        if type(mols)==type([]):
+            df = pd.DataFrame({'SMILES': [Chem.MolToSmiles(mol,allHsExplicit=False) for mol in mols], 'Class': [0]})
+        else:
+            df = pd.DataFrame({'SMILES': [Chem.MolToSmiles(mols,allHsExplicit=False)], 'Class': [0]})
         self.loadDataFrame(df)
         
     def loadDataFrame(self,df):
