@@ -37,8 +37,9 @@ biodeg test -m /tmp/e.pt -i data/data/All-Public_dataset_Mordred_tail_10.csv
 ```bash
 conda create -n biodeg python=3.11 && \
     conda activate biodeg && \
-    pip install -e . && \
-    pip install poetry
+    pip install poetry && \
+    poetry install --no-root && \
+    pip install -e .
 ```
 #### Build
 ```bash
